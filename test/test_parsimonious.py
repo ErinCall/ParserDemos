@@ -20,3 +20,6 @@ class TestParse(TestCase):
 
     def test_add_two_numbers(self):
         eq_(7, calculate('5+2'))
+
+    def test_add_several_numbers(self):
+        eq_(32, calculate('8+14+3+7'))

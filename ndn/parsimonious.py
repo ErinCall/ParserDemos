@@ -5,7 +5,7 @@ from parsimonious.nodes import NodeVisitor
 
 grammar = Grammar("""
     expression = addition / number
-    addition   = number plus number
+    addition   = number plus expression
     plus       = "+"
     number     = "-"? ~"[0-9]+" ("." ~"[0-9]+")?
 """)
