@@ -4,7 +4,7 @@ from parsimonious.grammar import Grammar
 from parsimonious.nodes import NodeVisitor
 
 grammar = Grammar("""
-    number = ~"[0-9]+" ("." ~"[0-9]+")?
+    number = "-"? ~"[0-9]+" ("." ~"[0-9]+")?
 """)
 
 class Calculator(NodeVisitor):
