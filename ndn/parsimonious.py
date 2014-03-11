@@ -4,10 +4,12 @@ from parsimonious.grammar import Grammar
 from parsimonious.nodes import NodeVisitor
 
 grammar = Grammar("""
-    expression = operation / number
-    operation  = number operator expression
-    operator   = ~"[+\-/*]"
-    number     = "-"? ~"[0-9]+" ("." ~"[0-9]+")?
+    expression    = operation / element
+    operation     = element operator expression
+    element       = parenthetical / number
+    parenthetical = "(" expression ")"
+    operator      = ~"[+\-/*]"
+    number        = "-"? ~"[0-9]+" ("." ~"[0-9]+")?
 """)
 
 class Calculator(NodeVisitor):
@@ -20,6 +22,13 @@ class Calculator(NodeVisitor):
     def visit_operation(self, node, visited_children):
         #visited_children is [number, operator, number]
         return visited_children[1](visited_children[0], visited_children[2])
+
+    def visit_element(self, node, visited_children):
+        return visited_children[0]
+
+    def visit_parenthetical(self, node, visited_children):
+        #visited_children is ['(', some_expression, ')']
+        return visited_children[1]
 
     def visit_operator(self, node, visited_children):
         return {
