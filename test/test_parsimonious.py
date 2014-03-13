@@ -1,6 +1,7 @@
 from unittest import TestCase
 from parsimonious.exceptions import IncompleteParseError
 from nose.tools import eq_, raises
+from mock import patch
 
 from ndn.parsimonious import calculate
 
@@ -46,3 +47,8 @@ class TestParse(TestCase):
 
     def test_a_lot_of_whitespace(self):
         eq_(32, calculate('    8    *       4  '))
+
+    @patch('ndn.parsimonious.randint')
+    def test_roll_the_dice(self, mock_randint):
+        mock_randint.return_value = 5
+        eq_(10, calculate('2d6'))

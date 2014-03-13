@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 from parsimonious.grammar import Grammar
 from parsimonious.nodes import NodeVisitor
+from random import randint
 
 grammar = Grammar("""
     expression    = operation / element
@@ -9,7 +10,7 @@ grammar = Grammar("""
     element       = parenthetical / number
     parenthetical = "(" ws expression ws ")"
     ws            = ~"\s"*
-    operator      = ~"[+\-/*]"
+    operator      = ~"[+\-/*d]"
     number        = "-"? ~"[0-9]+" ("." ~"[0-9]+")?
 """)
 
@@ -32,11 +33,14 @@ class Calculator(NodeVisitor):
         return visited_children[2]
 
     def visit_operator(self, node, visited_children):
+        def roll(num, size):
+            return sum(map(lambda _: randint(1, size), range(0, int(num))))
         return {
             '+': lambda x, y: x + y,
             '-': lambda x, y: x - y,
             '*': lambda x, y: x * y,
             '/': lambda x, y: x / y,
+            'd': roll,
         }[node.text]
 
     def visit_number(self, node, visited_children):
