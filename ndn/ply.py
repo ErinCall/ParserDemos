@@ -3,6 +3,10 @@ from __future__ import absolute_import
 import ply.lex as lex
 import ply.yacc as yacc
 
+class SilentLogger(object):
+    def warning(*args, **kwargs):
+        pass
+
 tokens = (
     'NUMBER',
 )
@@ -12,7 +16,7 @@ def t_NUMBER(token):
     token.value = float(token.value)
     return token
 
-lexer = lex.lex()
+lexer = lex.lex(errorlog=SilentLogger())
 
 def p_number(p):
     'number : NUMBER'
