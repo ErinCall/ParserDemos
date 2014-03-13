@@ -8,18 +8,29 @@ class SilentLogger(object):
         pass
 
 tokens = (
+    'PLUS',
     'NUMBER',
 )
 
+def t_PLUS(token):
+    r'\+'
+    token.value = lambda a, b: a + b
+    return token
+
 def t_NUMBER(token):
-    r'(-?)[0-9]+(.[0-9]+)?'
+    r'(-?)[0-9]+(\.[0-9]+)?'
     token.value = float(token.value)
     return token
 
 lexer = lex.lex(errorlog=SilentLogger())
 
+def p_expression_operator(p):
+    'expression : expression PLUS expression'
+    p[0] = p[2](p[1], p[3])
+
 def p_number(p):
-    'number : NUMBER'
+    'expression : NUMBER'
+
     p[0] = p[1]
 
 parser = yacc.yacc()

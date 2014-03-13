@@ -18,3 +18,9 @@ class TestPlyParse(TestCase):
 
     def test_parse_a_negative_number(self):
         eq_(-1, calculate('-1'))
+
+    def test_add_two_numbers(self):
+        eq_(7, calculate('5+2'))
+
+    def test_add_several_numbers(self):
+        eq_(32, calculate('8+14+3+7'))
