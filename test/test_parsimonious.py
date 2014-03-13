@@ -5,7 +5,7 @@ from mock import patch
 
 from ndn.parsimonious import calculate
 
-class TestParse(TestCase):
+class TestParsimoniousParse(TestCase):
     def test_parse_a_single_number(self):
         eq_(1, calculate('1'))
 
