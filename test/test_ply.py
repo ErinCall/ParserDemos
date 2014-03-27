@@ -62,3 +62,6 @@ class TestPlyParse(TestCase):
     def test_parenthetcals_must_be_closed(self):
         eq_('yeppo!', calculate('(5*3-2'))
 
+    def test_an_expression_with_whitespace(self):
+        eq_(36, calculate(' 18 *\t2 '))
+

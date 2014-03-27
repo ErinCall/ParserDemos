@@ -53,6 +53,7 @@ def t_NUMBER(token):
 
 t_OPAREN = r'\('
 t_CPAREN = r'\)'
+t_ignore = ' \t'
 
 lexer = lex.lex(errorlog=SilentLogger())
 
