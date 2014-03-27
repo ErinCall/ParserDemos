@@ -3,6 +3,7 @@ from nose.tools import eq_, raises
 from mock import patch
 
 from ndn.ply import calculate
+from ndn.ply import ParseError
 
 from ply.lex import LexError
 
@@ -47,3 +48,17 @@ class TestPlyParse(TestCase):
     def test_roll_the_dice(self, mock_randint):
         mock_randint.return_value = 5
         eq_(10, calculate('2d6'))
+
+    def test_a_parenthesized_number(self):
+        eq_(1, calculate('(1)'))
+
+    def test_a_parenthesized_expression(self):
+        eq_(13, calculate('(5+8)'))
+
+    def test_operate_on_a_parenthetical(self):
+        eq_(13, calculate('(5*3)-2'))
+
+    @raises(ParseError)
+    def test_parenthetcals_must_be_closed(self):
+        eq_('yeppo!', calculate('(5*3-2'))
+

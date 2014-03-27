@@ -15,6 +15,8 @@ tokens = (
     'MULTIPLY',
     'DIVIDE',
     'ROLL',
+    'OPAREN',
+    'CPAREN',
 )
 
 def t_PLUS(token):
@@ -49,6 +51,9 @@ def t_NUMBER(token):
     token.value = float(token.value)
     return token
 
+t_OPAREN = r'\('
+t_CPAREN = r'\)'
+
 lexer = lex.lex(errorlog=SilentLogger())
 
 def p_expression_operator(p):
@@ -65,10 +70,26 @@ def p_unary_minus(p):
 
 def p_number(p):
     'expression : NUMBER'
-
     p[0] = p[1]
+
+def p_parenthetical(p):
+    'expression : OPAREN expression CPAREN'
+    p[0] = p[2]
 
 parser = yacc.yacc()
 
 def calculate(text):
-    return parser.parse(text)
+    return parser.parse(text, debug=ErrorRaiser())
+
+class ErrorRaiser(object):
+    def error(self, error, message, *args, **kwargs):
+        raise ParseError(error % message)
+
+    def black_hole(*args, **kwargs):
+        pass
+
+    def __getattr__(self, *args, **kwargs):
+        return self.black_hole
+
+class ParseError(StandardError):
+    pass
