@@ -1,6 +1,7 @@
 from unittest import TestCase
 from nose.tools import eq_, raises
 from parsley import ParseError
+from mock import patch
 
 from ndn.parsley import calculate
 
@@ -23,3 +24,22 @@ class TestParsleyParse(TestCase):
 
     def test_add_several_numbers(self):
         eq_(56, calculate('18+2+40+-4'))
+
+    def test_multiply_two_numbers(self):
+        eq_(48, calculate('6*8'))
+
+    def test_divide_two_numbers(self):
+        eq_(2.5, calculate('5/2'))
+
+    def test_subtract_two_numbers(self):
+        eq_(8, calculate('13-5'))
+
+    @patch('ndn.parsley.randint')
+    def test_roll_the_dice(self, mock_randint):
+        mock_randint.return_value = 4
+        eq_(8, calculate('2d6'))
+
+    def test_operators_are_right_associative(self):
+        eq_((23 - (10 - 5)), calculate('23-10-5'))
+        eq_((24 / (16 / 2)), calculate('24/16/2'))
+        eq_((8 + (5 * 3)), calculate('8+5*3'))
