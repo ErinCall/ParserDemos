@@ -43,3 +43,9 @@ class TestParsleyParse(TestCase):
         eq_((23 - (10 - 5)), calculate('23-10-5'))
         eq_((24 / (16 / 2)), calculate('24/16/2'))
         eq_((8 + (5 * 3)), calculate('8+5*3'))
+
+    def test_a_single_number_in_parens(self):
+        eq_(5, calculate('(5)'))
+
+    def test_use_parens_to_override_associativity(self):
+        eq_(32, calculate('(5+3)*(8-4)'))
