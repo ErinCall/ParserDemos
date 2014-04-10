@@ -8,15 +8,16 @@ def roll(num, size):
 
 grammar = makeGrammar("""
     expression    = operation | element
-    operation     = element:a operator:op expression:b -> op(a, b)
+    operation     = ws element:a ws operator:op ws expression:b ws -> op(a, b)
     element       = parenthetical | number
-    parenthetical = '(' expression:e ')' -> e
+    parenthetical = '(' ws expression:e ws ')' -> e
     number        = <'-'? digit+ ('.' digit+)?>:ds -> float(ds)
     operator      = ( '+' -> lambda a, b: a + b
                     | '-' -> lambda a, b: a - b
                     | '*' -> lambda a, b: a * b
                     | '/' -> lambda a, b: a / b
                     | 'd' -> roll)
+    ws            = (' ' | '\t')*
 """, {'roll': roll})
 
 def calculate(text):
