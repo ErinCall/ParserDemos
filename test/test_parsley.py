@@ -20,3 +20,6 @@ class TestParsleyParse(TestCase):
 
     def test_add_two_numbers(self):
         eq_(35.2, calculate('5.2+30'))
+
+    def test_add_several_numbers(self):
+        eq_(56, calculate('18+2+40+-4'))

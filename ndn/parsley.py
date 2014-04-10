@@ -4,7 +4,7 @@ from parsley import makeGrammar
 
 grammar = makeGrammar("""
     expression = addition | number
-    addition   = number:a plus:op number:b -> op(a, b)
+    addition   = number:a plus:op expression:b -> op(a, b)
     number     = <'-'? digit+ ('.' digit+)?>:ds -> float(ds)
     plus       = '+' -> lambda a, b: a + b
 """, {})
