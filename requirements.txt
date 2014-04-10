@@ -5,3 +5,4 @@ mock==1.0.1
 rednose==0.4.1
 ply==3.4
 parsley==1.2
+funcparserlib==0.3.6
